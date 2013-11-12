@@ -11,6 +11,8 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import br.com.caelum.agiletickets.domain.Promocao;
+
 @Entity
 public class Sessao {
 
@@ -107,5 +109,10 @@ public class Sessao {
         boolean naoTemEspaco = sobraram <= 0;
 
         return !naoTemEspaco;
+	}
+
+	public boolean dentroDoIntervalo(Promocao promocao) {
+		return getInicio().isAfter(promocao.getInicio())
+				&& getInicio().isBefore(promocao.getFim());
 	}
 }

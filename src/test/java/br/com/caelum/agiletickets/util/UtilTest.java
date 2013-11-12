@@ -19,7 +19,7 @@ public class UtilTest {
 		promocao.setFim(new DateTime().plusHours(1));
 
 		Util util = new Util();
-		Assert.assertTrue(util.dentroDoIntervalo(sessao, promocao));
+		Assert.assertTrue(sessao.dentroDoIntervalo(promocao));
 	}
 
 	@Test
@@ -32,7 +32,7 @@ public class UtilTest {
 		promocao.setFim(new DateTime().minusMinutes(1));
 
 		Util util = new Util();
-		Assert.assertFalse(util.dentroDoIntervalo(sessao, promocao));
+		Assert.assertFalse(sessao.dentroDoIntervalo(promocao));
 	}
 
 	@Test
@@ -45,7 +45,7 @@ public class UtilTest {
 		promocao.setFim(new DateTime().plusHours(1));
 
 		Util util = new Util();
-		Assert.assertFalse(util.dentroDoIntervalo(sessao, promocao));
+		Assert.assertFalse(sessao.dentroDoIntervalo(promocao));
 	}
 
 	@Test
