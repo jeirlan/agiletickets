@@ -77,6 +77,10 @@ public class EspetaculosController {
 
 	@Post @Path("/sessao/{sessaoId}/reserva")
 	public void reserva(Long sessaoId, final Integer quantidade) {
+		if (sessaoId == null) {
+			result.notFound();
+			return;
+		}  
 		Sessao sessao = agenda.sessao(sessaoId);
 		if (sessao == null) {
 			result.notFound();
