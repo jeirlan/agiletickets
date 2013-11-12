@@ -109,4 +109,18 @@ public class EspetaculosControllerTest {
 
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
 	}
+	
+	
+	@Test(expected=NullPointerException.class)
+	public void naoDeveGerarErroQuantidadeVazio() throws Exception {
+		Sessao sessao = new Sessao();
+		controller.reserva(sessao.getId(), null);
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void naoDeveGerarErroQuantidaSessaoVazio() throws Exception {		
+		controller.reserva(null, 1);
+	}
+	
+	
 }
