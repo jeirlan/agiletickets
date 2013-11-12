@@ -6,6 +6,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -15,6 +21,7 @@ import org.mockito.Spy;
 import br.com.caelum.agiletickets.domain.Agenda;
 import br.com.caelum.agiletickets.domain.DiretorioDeEstabelecimentos;
 import br.com.caelum.agiletickets.models.Espetaculo;
+import br.com.caelum.agiletickets.models.Periodicidade;
 import br.com.caelum.agiletickets.models.Sessao;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
@@ -108,5 +115,19 @@ public class EspetaculosControllerTest {
 		controller.reserva(1234l, 3);
 
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
+	}
+	
+	@Test
+	public void verificaQuantidadeDeSessoesCriadasNoPeriodoDiario() throws Exception {
+		Espetaculo espetaculo = new Espetaculo(); 
+		
+		DateTime dataInicio = new DateTime();		
+		LocalDate dataFim = dataInicio.plusDays(1).toLocalDate();		
+		LocalTime horario = dataInicio.toLocalTime();
+		
+		List<Sessao> sessoesCriadas = espetaculo.criaSessoes(dataInicio.toLocalDate(), dataFim, horario, Periodicidade.DIARIA);		
+		
+		Assert.assertEquals(2, sessoesCriadas.size());
+		
 	}
 }
