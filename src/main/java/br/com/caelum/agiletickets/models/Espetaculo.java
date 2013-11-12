@@ -99,16 +99,17 @@ public class Espetaculo {
 	public List<Sessao> criaSessoes(LocalDate inicio, LocalDate fim,
 			LocalTime horario, Periodicidade periodicidade) {
 		
-		
 		List<Sessao> sessoesAdicionadas = new ArrayList<Sessao>();		
 		DateTime dataAtual = inicio.toDateTime(horario);
-		int quantidadeSessoes = Days.daysBetween(inicio, fim).getDays();
+		int numeroDiasPeriodicidade = periodicidade == Periodicidade.DIARIA ? 1 : 7;
+		
+		int quantidadeSessoes = Days.daysBetween(inicio, fim).getDays() / numeroDiasPeriodicidade;
 
 		for (int i = 0; i < quantidadeSessoes; i++) {
 			Sessao sessao = new Sessao();
 			sessao.setInicio(dataAtual);
 			sessoesAdicionadas.add(sessao);
-			dataAtual = dataAtual.plusDays(1);
+			dataAtual = dataAtual.plusDays(numeroDiasPeriodicidade);
 		}
 
 		this.sessoes.addAll(sessoesAdicionadas);

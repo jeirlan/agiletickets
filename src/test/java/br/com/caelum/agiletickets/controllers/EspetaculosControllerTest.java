@@ -131,5 +131,18 @@ public class EspetaculosControllerTest {
 		
 	}
 	
-
+	@Test
+	public void verificaQuantidadeDeSessoesCriadasNoPeriodoSemanal() throws Exception {
+		Espetaculo espetaculo = new Espetaculo(); 
+		
+		LocalDate dataInicio = new LocalDate(2013,11,17);		
+		LocalDate dataFim = dataInicio.plusDays(14);
+		
+		LocalTime horario = new LocalTime(14,0);
+		
+		List<Sessao> sessoesCriadas = espetaculo.criaSessoes(dataInicio, dataFim, horario, Periodicidade.SEMANAL);		
+		
+		Assert.assertEquals(2, sessoesCriadas.size());
+		
+	}
 }
