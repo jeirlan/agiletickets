@@ -49,9 +49,13 @@ public class EspetaculosController {
 
 	@Post @Path("/espetaculos")
 	public void adiciona(Espetaculo espetaculo) {
-		// aqui eh onde fazemos as varias validacoes
-		// se nao tiver nome, avisa o usuario
-		// se nao tiver descricao, avisa o usuario
+		validaEntradaEspetaculo(espetaculo);
+
+		agenda.cadastra(espetaculo);
+		result.redirectTo(this).lista();
+	}
+
+	private void validaEntradaEspetaculo(Espetaculo espetaculo) {
 		if (Strings.isNullOrEmpty(espetaculo.getNome())) {
 			validator.add(new ValidationMessage("Nome do espetáculo nao pode estar em branco", ""));
 		}
@@ -59,9 +63,6 @@ public class EspetaculosController {
 			validator.add(new ValidationMessage("Descricao do espetaculo nao pode estar em branco", ""));
 		}
 		validator.onErrorRedirectTo(this).lista();
-
-		agenda.cadastra(espetaculo);
-		result.redirectTo(this).lista();
 	}
 
 
@@ -87,6 +88,15 @@ public class EspetaculosController {
 			return;
 		}
 
+		validaReserva(quantidade, sessao);
+
+		sessao.reserva(quantidade);
+		result.include("message", "Sessao reservada com sucesso");
+
+		result.redirectTo(IndexController.class).index();
+	}
+
+	private void validaReserva(final Integer quantidade, Sessao sessao) {
 		if ((quantidade == null) || (quantidade < 1)) {
 			validator.add(new ValidationMessage("Voce deve escolher um lugar ou mais", ""));
 		}
@@ -95,13 +105,7 @@ public class EspetaculosController {
 			validator.add(new ValidationMessage("Nao existem ingressos dispon√≠veis", ""));
 		}
 
-		// em caso de erro, redireciona para a lista de sessao
 		validator.onErrorRedirectTo(this).sessao(sessao.getId());
-
-		sessao.reserva(quantidade);
-		result.include("message", "Sessao reservada com sucesso");
-
-		result.redirectTo(IndexController.class).index();
 	}
 
 	@Get @Path("/espetaculo/{espetaculoId}/sessoes")
@@ -111,7 +115,7 @@ public class EspetaculosController {
 		result.include("espetaculo", espetaculo);
 	}
 
-
+              
 	@Post @Path("/espetaculo/{espetaculoId}/sessoes")
 	public void cadastraSessoes(Long espetaculoId, LocalDate inicio, LocalDate fim, LocalTime horario, Periodicidade periodicidade) {
 		Espetaculo espetaculo = carregaEspetaculo(espetaculoId);
