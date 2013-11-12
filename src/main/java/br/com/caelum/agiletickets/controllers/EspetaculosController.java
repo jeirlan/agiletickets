@@ -83,7 +83,7 @@ public class EspetaculosController {
 			return;
 		}
 
-		if (quantidade < 1) {
+		if ((quantidade == null) || (quantidade < 1)) {
 			validator.add(new ValidationMessage("Voce deve escolher um lugar ou mais", ""));
 		}
 
