@@ -1,14 +1,13 @@
 package br.com.caelum.agiletickets.controllers;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.Assert;
@@ -121,13 +120,16 @@ public class EspetaculosControllerTest {
 	public void verificaQuantidadeDeSessoesCriadasNoPeriodoDiario() throws Exception {
 		Espetaculo espetaculo = new Espetaculo(); 
 		
-		DateTime dataInicio = new DateTime();		
-		LocalDate dataFim = dataInicio.plusDays(1).toLocalDate();		
-		LocalTime horario = dataInicio.toLocalTime();
+		LocalDate dataInicio = new LocalDate(2013,11,17);		
+		LocalDate dataFim = dataInicio.plusDays(14);
 		
-		List<Sessao> sessoesCriadas = espetaculo.criaSessoes(dataInicio.toLocalDate(), dataFim, horario, Periodicidade.DIARIA);		
+		LocalTime horario = new LocalTime(14,0);
 		
-		Assert.assertEquals(2, sessoesCriadas.size());
+		List<Sessao> sessoesCriadas = espetaculo.criaSessoes(dataInicio, dataFim, horario, Periodicidade.DIARIA);		
+		
+		Assert.assertEquals(14, sessoesCriadas.size());
 		
 	}
+	
+
 }
